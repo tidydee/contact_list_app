@@ -30,3 +30,4 @@ class Contact
   end
 
 end
+ 
