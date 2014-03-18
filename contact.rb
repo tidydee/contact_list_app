@@ -1,3 +1,5 @@
+require "pry"
+
 class Contact
 
   ## In-memory list of contacts
@@ -21,6 +23,18 @@ class Contact
 
   ## Class Methods
   class << self
+
+    def find_by_name( contact_name )
+      @@contact.find_all {|contact| contact.fname == contact_name } unless @@contact.nil?
+    end
+
+    def find_by_id( id )
+      @@contact.find_all {|contact| contact.id == id } unless @@contact.nil?
+    end
+
+    def find_by_email email
+      @@contact.find_all {|contact| contact.email == email} unless @@contact.nil?
+    end
 
     def create(fname, lname, email, numbers = {})
       contact = Contact.new(fname, lname, email, numbers)

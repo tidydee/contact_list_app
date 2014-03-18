@@ -1,4 +1,5 @@
 require 'colorize'
+require 'pry'
 
 class Application
 
@@ -44,53 +45,34 @@ class Application
   def find
     puts "Please type the contact's first name you would like to find."
     contact_name = gets.chomp
-
-    # found_contact = []
-    # Contact.all.each do |contact|
-    #   if contact.fname == contact_name
-    #    found_contact << contact
-    #   end 
-    # end
-
-    found_contact = Contact.all.find_all {|contact| contact.fname == contact_name }
-
-    if !found_contact.nil?
-      puts found_contact
-    else
-      puts "Could not find contact with name #{contact_name}".colorize( :red )
-    end
+    print_contact( Contact.find_by_name(contact_name) )
   end
-
 
   def show
     puts "Please type contact's ID."
     id = gets.chomp.to_i
-      
-    found_contact = nil
-    Contact.all.each do |contact|
-      if id == contact.id
-       found_contact = contact
-      end 
-    end
+    print_contact( Contact.find_by_id(id) )
+  end
 
-    if !found_contact.nil?
+  def print_contact( found_contact )
+     if !found_contact.nil?
       puts found_contact
     else
-      puts "Could not find contact with id #{id}".colorize( :red )
+      puts "Could not find contact".colorize( :red )
     end
   end
 
-   def list
+  def list
     Contact.all.each do |c_list| 
       puts c_list
     end
   end
   
   def new_contact
-    
     puts "Please type contact's email address."
+    binding.pry
     email = gets.chomp
-    email_check = Contact.all.find {|contact| contact.email == email}
+    email_check = Contact.find_by_email(email)
 
       if !email_check.nil?
         puts ("A contact with this email already exists!").upcase.colorize( :red ) 
@@ -124,24 +106,3 @@ class Application
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
